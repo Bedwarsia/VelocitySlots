@@ -1,3 +1,5 @@
+Support server: https://discord.gg/dkswTbBVEj
+
 # VelocitySlots
 
 VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots** in your server’s MOTD.
