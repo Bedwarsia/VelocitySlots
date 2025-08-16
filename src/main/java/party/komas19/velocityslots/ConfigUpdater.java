@@ -8,129 +8,107 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ConfigUpdater {
 
-    private static final LinkedHashMap<String, String[]> defaultsWithComments = new LinkedHashMap<>();
-
+    // Comments for each key, injected before the key
+    private static final Map<String, List<String>> keyComments = new LinkedHashMap<>();
     static {
-        defaultsWithComments.put("max-slots-mode", new String[]{
+        keyComments.put("max-slots-mode", Arrays.asList(
                 "# ----------------------------------------------------------",
                 "# VelocitySlots Configuration File",
                 "# ----------------------------------------------------------",
                 "# Controls the 'max slots' shown in your server list (MOTD)",
                 "# without affecting the real online player count.",
-                "#",
                 "# Options:",
                 "#   STATIC   -> always show a fixed number",
                 "#   DYNAMIC  -> show online + offset",
-                "#",
                 "# Note: This only fakes the max slots. Real limits still apply.",
                 "# ----------------------------------------------------------",
-                "#",
                 "# ------------------------",
                 "# MAX SLOTS MODE",
                 "# ------------------------",
                 "# How max slots appear:",
                 "#   DYNAMIC -> online + offset",
                 "#   STATIC  -> fixed static-slots value"
-        });
-        defaultsWithComments.put("offset", new String[]{
+        ));
+        keyComments.put("offset", Arrays.asList(
                 "# ------------------------",
                 "# DYNAMIC MODE SETTINGS",
                 "# ------------------------",
                 "# Used only if max-slots-mode = DYNAMIC",
                 "# Shows: online + offset",
                 "# Example: 50 online + 10 offset => 50/60 shown"
-        });
-        defaultsWithComments.put("static-slots", new String[]{
+        ));
+        keyComments.put("static-slots", Arrays.asList(
                 "# ------------------------",
                 "# STATIC MODE SETTINGS",
                 "# ------------------------",
                 "# Used only if max-slots-mode = STATIC",
                 "# Always shows this number as max slots",
                 "# Example: 20 online with static-slots: 1 => 20/1 shown"
-        });
-        defaultsWithComments.put("config-version", new String[]{
-                "# ------------------------",
-                "# CONFIG VERSION",
-                "# ------------------------",
-                "# Used internally to track configuration version"
-        });
+        ));
     }
 
-    public static void update(Path configFile, InputStream defaultConfigStream) throws IOException {
+    public static void update(Path configFile, Map<String, Object> defaults) throws IOException {
         Yaml yaml = new Yaml(new SafeConstructor());
 
-        // Load defaults from JAR
-        Map<String, Object> defaults = yaml.load(defaultConfigStream);
-        if (defaults == null) defaults = new LinkedHashMap<>();
-
         // Load existing config
-        Map<String, Object> existing;
+        Map<String, Object> existing = new LinkedHashMap<>();
         if (Files.exists(configFile)) {
             try (InputStream in = Files.newInputStream(configFile)) {
-                existing = yaml.load(in);
+                Object loaded = yaml.load(in);
+                if (loaded instanceof Map) {
+                    existing = (Map<String, Object>) loaded;
+                }
             }
-            if (existing == null) existing = new LinkedHashMap<>();
-        } else {
-            existing = new LinkedHashMap<>();
         }
 
-        // Merge: replace invalid values with defaults
-        Map<String, Object> newConfig = new LinkedHashMap<>();
+        // Merge defaults with validation
+        Map<String, Object> merged = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : defaults.entrySet()) {
             String key = entry.getKey();
             Object defaultValue = entry.getValue();
             Object existingValue = existing.get(key);
-
             if (isValid(key, existingValue)) {
-                newConfig.put(key, existingValue);
+                merged.put(key, existingValue);
             } else {
-                newConfig.put(key, defaultValue);
+                merged.put(key, defaultValue);
             }
         }
 
-        // Write back valid/merged values
-        Files.write(configFile, yaml.dump(newConfig).getBytes());
+        // Write the config with comments
+        try (BufferedWriter writer = Files.newBufferedWriter(configFile)) {
+            for (Map.Entry<String, Object> entry : merged.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
 
-        // Append missing keys with comments (preserves manual comments)
-        List<String> lines = Files.exists(configFile)
-                ? Files.readAllLines(configFile)
-                : new ArrayList<>();
-
-        Set<String> existingKeys = lines.stream()
-                .map(line -> line.split(":", 2)[0].trim())
-                .collect(Collectors.toSet());
-
-        try (BufferedWriter writer = Files.newBufferedWriter(configFile, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
-            for (String key : defaults.keySet()) {
-                if (!existingKeys.contains(key)) {
-                    String[] comments = defaultsWithComments.getOrDefault(key, new String[0]);
-                    for (String commentLine : comments) {
-                        writer.write(commentLine);
-                        writer.newLine();
-                    }
-                    writer.write(key + ": " + defaults.get(key));
+                // Write comments first if any
+                List<String> comments = keyComments.getOrDefault(key, Collections.emptyList());
+                for (String comment : comments) {
+                    writer.write(comment);
                     writer.newLine();
                 }
+
+                // Write key-value
+                writer.write(key + ": " + value);
+                writer.newLine();
+                writer.newLine();
             }
         }
     }
 
     private static boolean isValid(String key, Object value) {
         if (value == null) return false;
-
         switch (key) {
             case "max-slots-mode":
                 if (!(value instanceof String)) return false;
                 String mode = ((String) value).toUpperCase();
-                return mode.equals("DYNAMIC") || mode.equals("STATIC"); // adapt if default changes
+                return mode.equals("DYNAMIC") || mode.equals("STATIC");
             case "offset":
             case "static-slots":
+                return value instanceof Number;
             case "config-version":
                 return value instanceof Number;
             default:
