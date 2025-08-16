@@ -38,7 +38,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.8'
-
+          
+      - name: Make Gradle Wrapper executable
+        run: chmod +x ./gradlew
+        
       # Build plugin using Gradle wrapper
       - name: Build with Gradle Wrapper
         run: ./gradlew build
