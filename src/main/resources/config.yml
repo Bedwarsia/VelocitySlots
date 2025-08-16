@@ -1,0 +1,65 @@
+# ----------------------------------------------------------
+# VelocitySlots Configuration File
+# ----------------------------------------------------------
+# This file allows you to control the "max slots" displayed
+# in your server list (the MOTD), without affecting the real
+# number of online players.
+#
+# You can configure static numbers, fake dynamic slots, or
+# even unlimited slots. All settings here only affect the
+# max players shown to clients.
+#
+# Keep in mind, this is fake max slots, meaning if for
+# example the max slots of your server is at 200 players,
+# the limit will still work.
+# ----------------------------------------------------------
+
+# ------------------------
+# MAX SLOTS MODE
+# ------------------------
+# Choose how the max slots should be displayed.
+# Options:
+#   FAKE      -> max slots = online players + offset
+#   STATIC    -> max slots = static-slots value
+#   UNLIMITED -> max slots = unlimited-slots value (-1)
+max-slots-mode: FAKE
+
+# ------------------------
+# FAKE MODE SETTINGS
+# ------------------------
+# Only used if max-slots-mode is set to FAKE.
+# The plugin will take the real online player count and
+# add the offset. This makes the server appear fuller.
+# Example: 50 players online + offset 10 => 50/60 shown
+offset: 0
+
+# ------------------------
+# STATIC MODE SETTINGS
+# ------------------------
+# Only used if max-slots-mode is set to STATIC.
+# This number will always be shown as the max slots in the
+# server ping, regardless of the actual player count.
+# Example: static-slots: 1 will show 20/1 if 20 are online
+static-slots: 100
+
+# ------------------------
+# UNLIMITED MODE SETTINGS
+# ------------------------
+# Only used if max-slots-mode is set to UNLIMITED.
+# Typically set to -1, which tells Minecraft clients to
+# display the server as having "unlimited" slots.
+# Example: online 25 -> 25/-1 displayed in server list
+unlimited-slots: -1
+
+# ------------------------
+# NOTES
+# ------------------------
+# 1. Only the max slots value is changed; online players
+#    always display the real count.
+# 2. Offset is ignored in STATIC and UNLIMITED modes.
+# 3. Setting max-slots-mode: FAKE with offset: 0
+#    simply mirrors the current online count as max slots.
+# 4. Using UNLIMITED mode (-1) is cosmetic only; it does
+#    not actually increase the server capacity.
+# 5. You can adjust these values at any time; the changes
+#    will take effect immediately for the next server ping.
