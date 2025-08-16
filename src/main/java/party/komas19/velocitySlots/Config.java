@@ -53,6 +53,14 @@ public class Config {
         }
     }
 
+    public void save() throws IOException {
+        Yaml yaml = new Yaml();
+        try (FileWriter writer = new FileWriter(configFile)) {
+            yaml.dump(data, writer);
+        }
+    }
+
+
     private void saveDefaultConfig() throws IOException {
         data = new HashMap<>();
         data.put("config-version", CURRENT_VERSION);
