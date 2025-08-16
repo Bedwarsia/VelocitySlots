@@ -49,7 +49,7 @@ public class VelocitySlots {
             }
         } catch (IOException e) {
             logger.error("Failed to initialize config.yml", e);
-            logger.error("Try reset the config.yml by deleting it.");
+            logger.error("Try to reset the config.yml by deleting it.");
         }
 
         // Register ProxyPing listener
