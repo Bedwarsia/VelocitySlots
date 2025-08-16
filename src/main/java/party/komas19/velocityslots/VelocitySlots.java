@@ -45,10 +45,11 @@ public class VelocitySlots {
             if (defaultConfigStream == null) {
                 logger.error("Default config.yml missing from plugin JAR!");
             } else {
-                Config.init(defaultConfigStream, dataFolder, logger);
+                Config.init(this.getClass(), dataFolder, logger);
             }
         } catch (IOException e) {
             logger.error("Failed to initialize config.yml", e);
+            logger.error("Try reset the config.yml by deleting it.");
         }
 
         // Register ProxyPing listener
