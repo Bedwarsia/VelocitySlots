@@ -50,9 +50,6 @@ public class VelocitySlots {
             case "STATIC":
                 maxSlots = config.getStaticSlots();
                 break;
-            case "UNLIMITED":
-                maxSlots = config.getUnlimitedSlots();
-                break;
             default:
                 maxSlots = realOnline;
                 break;
