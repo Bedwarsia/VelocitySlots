@@ -67,9 +67,25 @@ public class Config {
         boolean updated = false;
 
         // Add missing keys with defaults
-        if (!data.containsKey("max-slots-mode")) { data.put("max-slots-mode", "FAKE"); updated = true; }
-        if (!data.containsKey("offset")) { data.put("offset", 10); updated = true; }
-        if (!data.containsKey("static-slots")) { data.put("static-slots", 60); updated = true; }
+        Map<String, Object> defaults = Map.of(
+            "max-slots-mode", "DYNAMIC",
+            "offset", 10,
+            "static-slots", 60
+        );
+
+        for (String key : defaults.keySet()) {
+            if (!data.containsKey(key)) {
+                data.put(key, defaults.get(key));
+                updated = true;
+            }
+        }
+
+        // Validate max-slots-mode
+        String mode = (String) data.getOrDefault("max-slots-mode", "DYNAMIC");
+        if (!Set.of("DYNAMIC", "STATIC").contains(mode)) {
+            data.put("max-slots-mode", "DYNAMIC");
+            updated = true;
+        }
 
         // Remove deprecated keys
         Iterator<String> it = data.keySet().iterator();
@@ -90,22 +106,22 @@ public class Config {
         if (updated) save();
     }
 
-    public void save() throws IOException {
-        Yaml yaml = new Yaml();
-        try (FileWriter writer = new FileWriter(configFile)) {
-            yaml.dump(data, writer);
-        }
-    }
-
     public String getMode() {
-        return (String) data.getOrDefault("max-slots-mode", "FAKE");
+        String mode = (String) data.getOrDefault("max-slots-mode", "DYNAMIC");
+        if (!Set.of("DYNAMIC", "STATIC").contains(mode)) return "DYNAMIC";
+        return mode;
     }
 
     public int getOffset() {
-        return (int) data.getOrDefault("offset", 0);
+        Object value = data.getOrDefault("offset", 10);
+        if (!(value instanceof Number)) return 10;
+        return ((Number) value).intValue();
     }
 
     public int getStaticSlots() {
-        return (int) data.getOrDefault("static-slots", 100);
+        Object value = data.getOrDefault("static-slots", 60);
+        if (!(value instanceof Number)) return 60;
+        return ((Number) value).intValue();
     }
+
 }
