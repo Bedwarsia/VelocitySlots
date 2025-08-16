@@ -14,6 +14,9 @@
 # the limit will still work.
 # ----------------------------------------------------------
 
+# DO NOT TOUCH THIS
+config-version: 1
+
 # ------------------------
 # MAX SLOTS MODE
 # ------------------------
