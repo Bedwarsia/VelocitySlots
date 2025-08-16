@@ -19,7 +19,7 @@ public class Config {
     private static Logger logger;
     private static Map<String, Object> data = new LinkedHashMap<>();
 
-    public static void init(PluginContainer plugin, Path dataDirectory, Logger log) {
+    public static void init(InputStream defaultConfigStream, Path dataDirectory, Logger log) {
         logger = log;
         configFile = dataDirectory.resolve("config.yml");
 
@@ -28,27 +28,22 @@ public class Config {
                 Files.createDirectories(dataDirectory);
             }
 
-            try (InputStream defaultIn = Objects.requireNonNull(
-                    plugin.getInstance().get().getClass().getClassLoader().getResourceAsStream("config.yml"),
-                    "Default config.yml missing from jar!"
-            )) {
-                if (Files.notExists(configFile)) {
-                    // Copy fresh config.yml
-                    Files.copy(defaultIn, configFile);
-                    logger.info("Generated fresh config.yml");
-                } else {
-                    // Update with defaults (remove old keys + add missing ones)
-                    ConfigUpdater.update(configFile, defaultIn);
-                    logger.info("Updated config.yml");
-                }
+            if (Files.notExists(configFile)) {
+                // Copy fresh config.yml
+                Files.copy(defaultConfigStream, configFile);
+                logger.info("Generated fresh config.yml");
+            } else {
+                // Update existing config.yml with defaults
+                ConfigUpdater.update(configFile, defaultConfigStream);
+                logger.info("Updated config.yml");
             }
 
-            // Load into memory for getters
-            load();
+            load(); // load into memory
         } catch (IOException e) {
             logger.error("Failed to initialize config.yml", e);
         }
     }
+
 
     @SuppressWarnings("unchecked")
     private static void load() throws IOException {

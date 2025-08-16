@@ -7,6 +7,8 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -35,10 +37,22 @@ public class VelocitySlots {
         // Hardcoded plugin data folder: plugins/velocityslots
         Path dataFolder = Paths.get("plugins", "velocityslots").toAbsolutePath();
 
-        // Initialize config.yml (copies fresh one from JAR and merges defaults)
-        Config.init(null, dataFolder, logger); // first argument null since we only need InputStream from classloader
+        // Load default config.yml from this class's classloader
+        try (InputStream defaultConfigStream = VelocitySlots.class
+                .getClassLoader()
+                .getResourceAsStream("config.yml")) {
+
+            if (defaultConfigStream == null) {
+                logger.error("Default config.yml missing from plugin JAR!");
+            } else {
+                Config.init(defaultConfigStream, dataFolder, logger);
+            }
+        } catch (IOException e) {
+            logger.error("Failed to initialize config.yml", e);
+        }
 
         // Register ProxyPing listener
         proxy.getEventManager().register(this, new ProxyPingListener(proxy, logger));
     }
+
 }
