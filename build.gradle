@@ -6,7 +6,11 @@ plugins {
 }
 
 group = 'party.komas19'
+<<<<<<< Updated upstream
 version = '1.0.0'
+=======
+version = '1.0.1'
+>>>>>>> Stashed changes
 
 repositories {
     mavenCentral()

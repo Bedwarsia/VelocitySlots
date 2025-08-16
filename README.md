@@ -12,9 +12,8 @@ VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots*
 
 ## Features
 
-* **FAKE mode**: Show `online players + offset` as max slots.
+* **DYNAMIC mode**: Show `online players + offset` as max slots.
 * **STATIC mode**: Always show a fixed maximum slot number.
-* **UNLIMITED mode**: Show a very high number to appear as “unlimited slots.”
 * Configurable via `config.yml`.
 
 ---
@@ -33,24 +32,21 @@ VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots*
 ```yaml
 # VelocitySlots configuration
 
-# Mode options: FAKE, STATIC, UNLIMITED
-mode: FAKE
+# Mode options: DYNAMIC, STATIC, UNLIMITED
+mode: DYNAMIC
 
-# Used in FAKE mode: displayed max = online + offset
+# Used in DYNAMIC mode: displayed max = online + offset
 offset: 10
 
 # Used in STATIC mode: fixed max slots
 static_slots: 60
-
-# Used in UNLIMITED mode: very high number of slots
-unlimited_slots: 1000
 ```
 
 ---
 
 ## Example
 
-If you have **50 players online** and `offset: 10` in FAKE mode:
+If you have **50 players online** and `offset: 10` in DYNAMIC mode:
 
 ```
 MOTD: 50/60
