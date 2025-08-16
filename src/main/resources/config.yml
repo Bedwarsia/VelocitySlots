@@ -11,9 +11,6 @@
 # Note: This only fakes the max slots. Real limits still apply.
 # ----------------------------------------------------------
 
-# DO NOT TOUCH THIS
-config-version: 2
-
 # ------------------------
 # MAX SLOTS MODE
 # ------------------------
