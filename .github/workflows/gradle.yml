@@ -49,7 +49,6 @@ jobs:
       # Upload JAR artifact
       - name: Upload built JAR
         uses: actions/upload-artifact@v4
-        with:
           name: velocityslots-${{ github.ref_name }}
           path: build/libs/*.jar
 
