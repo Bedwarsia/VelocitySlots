@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
+import party.komas19.velocityslots.utils.JavaVersionChecker;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +55,7 @@ public class VelocitySlots {
 
         // Register ProxyPing listener
         proxy.getEventManager().register(this, new ProxyPingListener(proxy, logger));
+        JavaVersionChecker.checkJavaVersion(logger);
     }
 
 }
