@@ -1,11 +1,12 @@
-name: Build VelocitySlots
+name: Build VelocitySlots ${{ github.head_ref || github.ref_name }}
+
 
 # Trigger on dev branch
 on:
   push:
-    branches: [ "dev","master" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "dev","master" ]
+    branches: ["**"]
 
 jobs:
   build:
@@ -50,6 +51,6 @@ jobs:
       - name: Upload built JAR
         uses: actions/upload-artifact@v4
         with:
-          name: velocityslots-dev
+          name: velocityslots-${{ github.ref_name }}
           path: build/libs/*.jar
 
