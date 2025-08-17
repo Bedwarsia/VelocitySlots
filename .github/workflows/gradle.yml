@@ -1,5 +1,4 @@
-name: Build VelocitySlots ${{ github.head_ref || github.ref_name }}
-
+name: Build VelocitySlots (${{ github.head_ref || github.ref_name }})
 
 # Trigger on dev branch
 on:
