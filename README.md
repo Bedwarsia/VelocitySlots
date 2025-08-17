@@ -32,7 +32,7 @@ VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots*
 ```yaml
 # VelocitySlots configuration
 
-# Mode options: DYNAMIC, STATIC, UNLIMITED
+# Mode options: DYNAMIC, STATIC
 mode: DYNAMIC
 
 # Used in DYNAMIC mode: displayed max = online + offset
