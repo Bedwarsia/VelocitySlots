@@ -2,7 +2,7 @@ Support server: https://discord.gg/dkswTbBVEj
 
 # VelocitySlots
 
-VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots** in your server’s MOTD.
+VelocitySlots is a simple Velocity (and BungeeCord) plugin that **fakes the maximum player slots** in your server’s MOTD.
 
 * Supports dynamic slot adjustment based on online players with an offset.
 * Can also be set to a static number or an “unlimited” mode.
@@ -21,9 +21,9 @@ VelocitySlots is a simple Velocity plugin that **fakes the maximum player slots*
 ## Installation
 
 1. Place the `VelocitySlots.jar` in your `plugins/` folder.
-2. Start Velocity — a default `config.yml` will be generated automatically.
-3. Stop Velocity and edit `plugins/VelocitySlots/config.yml` as needed.
-4. Restart Velocity to apply changes.
+2. Start Velocity/Bungeecord, a default `config.yml` will be generated automatically.
+3. Stop Velocity/Bungeecord and edit `plugins/VelocitySlots/config.yml` as needed.
+4. Restart Velocity/Bungeecord to apply changes.
 
 ---
 

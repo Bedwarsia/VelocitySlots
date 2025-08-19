@@ -1,4 +1,4 @@
-package party.komas19.velocityslots;
+package party.komas19.velocityslotsvelocity;
 
 // The constants are replaced before compilation
 public class BuildConstants {

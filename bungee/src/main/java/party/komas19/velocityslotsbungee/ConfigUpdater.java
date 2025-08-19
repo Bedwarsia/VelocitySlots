@@ -1,4 +1,4 @@
-package party.komas19.velocityslots;
+package party.komas19.velocityslotsbungee;
 
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -17,7 +17,7 @@ public class ConfigUpdater {
     static {
         keyComments.put("max-slots-mode", Arrays.asList(
                 "# ----------------------------------------------------------",
-                "# VelocitySlots Configuration File",
+                "# VelocitySlots Configuration File (BungeeCord)",
                 "# ----------------------------------------------------------",
                 "# Controls the 'max slots' shown in your server list (MOTD)",
                 "# without affecting the real online player count.",
@@ -52,7 +52,7 @@ public class ConfigUpdater {
     }
 
     public static void update(Path configFile, Map<String, Object> defaults) throws IOException {
-        Yaml yaml = new Yaml(new SafeConstructor());
+        Yaml yaml = new Yaml();
 
         // Load existing config
         Map<String, Object> existing = new LinkedHashMap<>();

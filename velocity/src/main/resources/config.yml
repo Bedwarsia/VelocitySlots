@@ -1,0 +1,44 @@
+# ----------------------------------------------------------
+# VelocitySlots Configuration File
+# ----------------------------------------------------------
+# Controls the "max slots" shown in your server list (MOTD)
+# without affecting the real online player count.
+#
+# Options:
+#   STATIC   -> always show a fixed number
+#   DYNAMIC  -> show online + offset
+#
+# Note: This only fakes the max slots. Real limits still apply.
+# ----------------------------------------------------------
+
+# ------------------------
+# MAX SLOTS MODE
+# ------------------------
+# How max slots appear:
+#   DYNAMIC -> online + offset
+#   STATIC  -> fixed static-slots value
+max-slots-mode: DYNAMIC
+
+# ------------------------
+# DYNAMIC MODE SETTINGS
+# ------------------------
+# Used only if max-slots-mode = DYNAMIC
+# Shows: online + offset
+# Example: 50 online + 10 offset => 50/60 shown
+offset: 0
+
+# ------------------------
+# STATIC MODE SETTINGS
+# ------------------------
+# Used only if max-slots-mode = STATIC
+# Always shows this number as max slots
+# Example: 20 online with static-slots: 1 => 20/1 shown
+static-slots: 100
+
+# ------------------------
+# NOTES
+# ------------------------
+# 1. Only max slots are changed; online count is real.
+# 2. Offset is ignored in STATIC mode.
+# 3. DYNAMIC with offset: 0 mirrors online count.
+# 4. Changes apply immediately for the next server ping.

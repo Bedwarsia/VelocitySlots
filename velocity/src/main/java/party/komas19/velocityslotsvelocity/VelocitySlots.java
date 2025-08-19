@@ -1,4 +1,4 @@
-package party.komas19.velocityslots;
+package party.komas19.velocityslotsvelocity;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
@@ -6,7 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
-import party.komas19.velocityslots.utils.JavaVersionChecker;
+import party.komas19.velocityslotsvelocity.utils.JavaVersionChecker;
 
 import java.io.IOException;
 import java.io.InputStream;
