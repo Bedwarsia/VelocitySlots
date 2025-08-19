@@ -1,4 +1,4 @@
-package party.komas19.velocityslots;
+package party.komas19.velocityslotsvelocity;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;

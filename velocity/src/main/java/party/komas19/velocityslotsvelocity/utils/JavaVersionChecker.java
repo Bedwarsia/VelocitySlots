@@ -1,4 +1,4 @@
-package party.komas19.velocityslots.utils;
+package party.komas19.velocityslotsvelocity.utils;
 
 import org.slf4j.Logger;
 

@@ -1,4 +1,4 @@
-package party.komas19.velocityslots;
+package party.komas19.velocityslotsvelocity;
 
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
