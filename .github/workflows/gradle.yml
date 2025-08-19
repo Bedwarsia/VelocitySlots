@@ -45,6 +45,9 @@ jobs:
       # Build plugin using Gradle wrapper
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+      
+      - name: Build shadow jar
+        run: ./gradlew shadowJar
 
       # Upload JAR artifact
       - name: Upload built JAR
