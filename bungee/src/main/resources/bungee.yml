@@ -1,5 +1,5 @@
 name: VelocitySlots
-version: '1.0.4'
+version: '1.0.3'
 main: party.komas19.velocityslotsbungee.VelocitySlots
 author: Bedwarsia (Komas19)
 description: Fakes max slots in the server MOTD

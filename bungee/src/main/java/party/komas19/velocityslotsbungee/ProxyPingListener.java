@@ -32,8 +32,8 @@ public class ProxyPingListener implements Listener {
 
         // Create new Players object with correct order: online, max, sample
         ServerPing.Players newPlayers = new ServerPing.Players(
-                realOnline,               // online players
                 maxSlots,                 // max players
+                realOnline,               // online players
                 oldPlayers != null ? oldPlayers.getSample() : null // keep sample array
         );
 
